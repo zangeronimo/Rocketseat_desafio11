@@ -31,11 +31,16 @@ const Orders: React.FC = () => {
   const [orders, setOrders] = useState<Food[]>([]);
 
   useEffect(() => {
-    async function loadOrders(): Promise<void> {
-      // Load orders from API
-    }
-
-    loadOrders();
+    api
+      .get('/orders')
+      .then(response => {
+        const data = response.data as Food[];
+        const formattedOrders = data.map(item => {
+          return { ...item, formattedPrice: formatValue(item.price) };
+        });
+        setOrders(formattedOrders);
+      })
+      .catch(err => console.log(err));
   }, []);
 
   return (
