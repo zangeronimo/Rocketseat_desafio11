@@ -132,9 +132,9 @@ const FoodDetails: React.FC = () => {
     const totalExtras = extras.map(item => item.value * item.quantity);
     const extraValue = totalExtras.reduce((a, b) => a + b, 0);
 
-    const totalFood = foodQuantity * food.price;
+    const totalValue = (Number(food.price) + extraValue) * foodQuantity;
 
-    return formatValue(totalFood + extraValue);
+    return formatValue(totalValue);
   }, [extras, food, foodQuantity]);
 
   async function handleFinishOrder(): Promise<void> {

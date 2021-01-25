@@ -43,6 +43,11 @@ interface Category {
   image_url: string;
 }
 
+interface FoodParams {
+  category_like?: number;
+  name_like?: string;
+}
+
 const Dashboard: React.FC = () => {
   const [foods, setFoods] = useState<Food[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -69,12 +74,12 @@ const Dashboard: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const params: FoodParams = {};
+    selectedCategory && (params.category_like = selectedCategory);
+    searchValue && (params.name_like = searchValue);
     api
       .get('/foods', {
-        params: {
-          category_like: selectedCategory,
-          name_like: searchValue,
-        },
+        params,
       })
       .then(result => {
         const resultData = result.data as Food[];
@@ -98,7 +103,11 @@ const Dashboard: React.FC = () => {
   }, [selectedCategory, searchValue]);
 
   function handleSelectCategory(id: number): void {
-    setSelectedCategory(id);
+    if (selectedCategory === id) {
+      setSelectedCategory(undefined);
+    } else {
+      setSelectedCategory(id);
+    }
   }
 
   return (
