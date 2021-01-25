@@ -266,7 +266,7 @@ describe('Dashboard', () => {
       fireEvent.press(getByTestId('category-2'));
     });
 
-    expect(getByText('Ao molho')).toBeTruthy();
+    expect(queryByText('Ao molho')).toBeFalsy();
     expect(getByText('Veggie')).toBeTruthy();
   });
 
